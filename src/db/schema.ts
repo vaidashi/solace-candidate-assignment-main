@@ -8,6 +8,7 @@ import {
   timestamp,
   bigint,
 } from "drizzle-orm/pg-core";
+import { z } from "zod";
 
 const advocates = pgTable("advocates", {
   id: serial("id").primaryKey(),
@@ -21,4 +22,14 @@ const advocates = pgTable("advocates", {
   createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
 });
 
-export { advocates };
+const advocateSchema = z.object({
+  firstName: z.string().min(1),
+  lastName: z.string().min(1),
+  city: z.string().min(1),
+  degree: z.string().min(1),
+  specialties: z.array(z.string()),
+  yearsOfExperience: z.number().int().min(0),
+  phoneNumber: z.number().int().positive(),
+});
+
+export { advocates, advocateSchema };
