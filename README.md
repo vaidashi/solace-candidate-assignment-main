@@ -39,3 +39,9 @@ npx drizzle-kit push
 ```bash
 curl -X POST http://localhost:3000/api/seed
 ```
+
+5. Test the API rate limit
+
+```bash
+sh test-rate-limit.sh
+```
