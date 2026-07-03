@@ -1,59 +1,59 @@
 "use client";
 
-import { useState } from "react";
-
 interface SearchBarProps {
-    onSearch: (searchTerm: string) => void;
-    isLoading?: boolean;
+  value: string;
+  onChange: (value: string) => void;
+  onSearch: (searchTerm: string) => void;
+  isLoading?: boolean;
 }
 
-export default function SearchBar({ onSearch, isLoading = false }: SearchBarProps) {
-    const [searchInput, setSearchInput] = useState("");
+export default function SearchBar({
+  value,
+  onChange,
+  onSearch,
+  isLoading = false,
+}: SearchBarProps) {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onSearch(value);
+  };
 
-    const handleSearch = () => {
-        onSearch(searchInput);
-    };
+  const handleClear = () => {
+    onChange("");
+    onSearch("");
+  };
 
-    const handleClear = () => {
-        setSearchInput("");
-        onSearch("");
-    };
-
-    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter") {
-            handleSearch();
-        }
-    };
-
-    return (
-        <div className="w-full max-w-2xl">
-            <div className="flex gap-2">
-                <input
-                    type="text"
-                    value={searchInput}
-                    onChange={(e) => setSearchInput(e.target.value)}
-                    onKeyDown={handleKeyPress}
-                    placeholder="Search by name, city, degree, or specialty..."
-                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    disabled={isLoading}
-                />
-                <button
-                    onClick={handleSearch}
-                    disabled={isLoading}
-                    className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                >
-                    {isLoading ? "Searching..." : "Search"}
-                </button>
-                {searchInput && (
-                    <button
-                        onClick={handleClear}
-                        disabled={isLoading}
-                        className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                    >
-                        Clear
-                    </button>
-                )}
-            </div>
+  return (
+    <form className="w-full max-w-3xl" onSubmit={handleSubmit}>
+      <div className="flex flex-col gap-3 rounded-3xl border border-slate-200 bg-white p-3 shadow-sm sm:flex-row">
+        <input
+          type="text"
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
+          placeholder="Search by specialty, city, degree, or advocate name..."
+          className="min-w-0 flex-1 rounded-2xl border border-slate-200 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
+          disabled={isLoading}
+        />
+        <div className="flex gap-3">
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="rounded-2xl bg-slate-950 px-6 py-3 font-semibold text-white transition-colors hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {isLoading ? "Searching..." : "Find advocates"}
+          </button>
+          {value && (
+            <button
+              type="button"
+              onClick={handleClear}
+              disabled={isLoading}
+              className="rounded-2xl border border-slate-300 px-4 py-3 font-medium text-slate-700 transition-colors hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              Clear
+            </button>
+          )}
         </div>
-    );
+      </div>
+    </form>
+  );
 }

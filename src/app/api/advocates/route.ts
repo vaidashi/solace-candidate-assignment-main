@@ -2,6 +2,9 @@ import db from "../../../db";
 import { advocates } from "../../../db/schema";
 import { NextRequest } from "next/server";
 import { Advocate } from "@/types/advocate";
+import { advocateData } from "../../../db/seed/advocates";
+
+export const dynamic = "force-dynamic";
 
 
 export async function GET(request: NextRequest) {
@@ -18,10 +21,11 @@ export async function GET(request: NextRequest) {
     const sortBy = searchParams.get("sortBy") || ""; // e.g., "yearsOfExperience"
     const sortOrder = searchParams.get("sortOrder") || "asc"; // "asc" or "desc"
 
-    // type guard for specialty and city
     const data = (await db.select().from(advocates)) as Advocate[];
+    const fallbackData = advocateData as Advocate[];
+    const sourceData = data.length > 0 ? data : fallbackData;
 
-    let dataResponse = data;
+    let dataResponse = [...sourceData];
 
     // Apply filters
     if (specialty) {
