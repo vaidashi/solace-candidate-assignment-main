@@ -8,7 +8,7 @@ export default function HomepageHero({
   onSpecialtySelect,
 }: HomepageHeroProps) {
   return (
-    <section className="rounded-[2rem] bg-[linear-gradient(135deg,#172033_0%,#24324d_52%,#f1dfc8_52%,#f7efe6_100%)] px-6 py-8 text-white shadow-xl sm:px-10 sm:py-10">
+    <section className="rounded-[2rem] bg-[#1f2a42] px-6 py-8 text-white shadow-xl sm:px-10 sm:py-10 lg:bg-[linear-gradient(135deg,#172033_0%,#24324d_58%,#f1dfc8_58%,#f7efe6_100%)]">
       <div className="grid gap-8 lg:grid-cols-[1.3fr_0.9fr] lg:items-center">
         <div className="space-y-5">
           <p className="inline-flex rounded-full border border-white/25 bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-amber-100">
